@@ -918,7 +918,8 @@ class BaseHandler(RequestHandler):
 
         try:
             await gen.with_timeout(
-                timedelta(seconds=self.slow_spawn_timeout), finish_spawn_future
+                timedelta(seconds=self.slow_spawn_timeout), finish_spawn_future,
+                quiet_exceptions=(ConnectionResetError,)
             )
         except gen.TimeoutError:
             # waiting_for_response indicates server process has started,
